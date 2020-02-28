@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--XML Jobflow definition -->
+<!--This file has been generated with Process Manager. 
+    Modify at your own risk.  Changes may render the definition unusable.   
+    The definition format may change in future versions of Process Manager.    -->
+<!DOCTYPE JobFlowReq SYSTEM "JobFlowDef30.dtd"><JobFlowReq  DTDVersion="3.0"  MainEntry="simpleflow"  ExitConditionIgnoreWaitingActivities=""  FlowCreateStdout="Yes"  ClientVersion="10.201"  FlowStdout="output.#{JS_FLOW_FULL_NAME}.%J"  FlowWorkingDir="your_path/workflow/simpleflow"  FlowStderrAutoIndex="No"  MailDestination="user"  FlowOverrideStderr="No"  FlowUseStdoutFrom=""  FlowUseStderrFrom=""  FlowStdoutDir="out"  FlowCreateStderr="Yes"  ExitCodeRule="FromSumOfItems"  FlowStderr="error.#{JS_FLOW_FULL_NAME}.%J"  EndBehaviour="FlowStop"  FlowStateMailWhen="Exit"  FlowStdoutAutoIndex="No"  FlowOverrideStdout="No"  UpdateType="Automatic"  Exclusive="No"  FlowStderrDir="out"  Description=""  FlowEnvVars=""  Operation="Schedule" >
+<JobDef ExecutionType="lsf" Name="simpleflow:J1">
+  <ExclusiveExec  Value="No"/>
+  <JobCmdLine  Value="sleep 1"/>
+  <StderrOverride  Value="No"/>
+  <CreateStderr  Value="No"/>
+  <CreateStdout  Value="No"/>
+  <UserName  Value="user"/>
+  <Rerunable  Value="No"/>
+  <StdoutOverride  Value="No"/>
+  <SubmissionCmd  Value="bsub"/>
+  <MinMaxCPU  Value="1,1"/>
+</JobDef>
+<JobDef ExecutionType="link" Name="simpleflow:Link_Inst_0">
+  <UserName  Value="user"/>
+</JobDef>
+<JobDef ExecutionType="lsf" Name="simpleflow:J2">
+  <ExclusiveExec  Value="No"/>
+  <JobCmdLine  Value="sleep 2"/>
+  <DependentJob  Value=",Job[J1]"/>
+  <StderrOverride  Value="No"/>
+  <CreateStderr  Value="No"/>
+  <CreateStdout  Value="No"/>
+  <UserName  Value="user"/>
+  <Rerunable  Value="No"/>
+  <StdoutOverride  Value="No"/>
+  <SubmissionCmd  Value="bsub"/>
+  <MinMaxCPU  Value="1,1"/>
+</JobDef>
+<JobDef ExecutionType="link" Name="simpleflow:Link_Inst_1">
+  <UserName  Value="user"/>
+</JobDef>
+<JobDef ExecutionType="lsf" Name="simpleflow:J3">
+  <ExclusiveExec  Value="No"/>
+  <JobCmdLine  Value="sleep 3"/>
+  <DependentJob  Value=",Job[J2]"/>
+  <StderrOverride  Value="No"/>
+  <CreateStderr  Value="No"/>
+  <CreateStdout  Value="No"/>
+  <UserName  Value="user"/>
+  <Rerunable  Value="No"/>
+  <StdoutOverride  Value="No"/>
+  <SubmissionCmd  Value="bsub"/>
+  <MinMaxCPU  Value="1,1"/>
+</JobDef>
+<JobFlowDef  Name="simpleflow">
+  <ActivityDef  Name=""  ImplementType="Job"  ImplementRefer="simpleflow:J1"  PositionX="34"  PositionY="118" Description="" ><Exceptions></Exceptions></ActivityDef>
+  <ActivityDef  Name=""  ImplementType="Job"  ImplementRefer="simpleflow:Link_Inst_0" Description="null" ><Events CombinationType="And"><Event GeneratorType="lsf"  IsProxy="No" >Done(simpleflow:J1)</Event><Event GeneratorType="FileAgent_v1.0"  Name="&quot;your_path/workflow/simpleflow/data/job1_data&quot;  Exist"  PositionY="221"  PositionX="147"  Description="" >exist (your_path/workflow/simpleflow/data/job1_data)</Event></Events><Exceptions></Exceptions></ActivityDef>
+  <ActivityDef  Name=""  ImplementType="Job"  ImplementRefer="simpleflow:J2"  PositionX="299"  PositionY="117" Description="" ><Events CombinationType="And"><Event GeneratorType="link"  PositionY="117"  PositionX="146" >Done(simpleflow:Link_Inst_0)</Event></Events><Exceptions></Exceptions></ActivityDef>
+  <ActivityDef  Name=""  ImplementType="Job"  ImplementRefer="simpleflow:Link_Inst_1" Description="null" ><Events CombinationType="And"><Event GeneratorType="lsf"  IsProxy="No" >Done(simpleflow:J2)</Event><Event GeneratorType="FileAgent_v1.0"  Name="&quot;your_path/workflow/simpleflow/data/job2_data&quot;  Exist"  PositionY="212"  PositionX="449"  Description="" >exist (your_path/workflow/simpleflow/data/job2_data)</Event></Events><Exceptions></Exceptions></ActivityDef>
+  <ActivityDef  Name=""  ImplementType="Job"  ImplementRefer="simpleflow:J3"  PositionX="699"  PositionY="117" Description="" ><Events CombinationType="And"><Event GeneratorType="link"  PositionY="120"  PositionX="451" >Done(simpleflow:Link_Inst_1)</Event></Events><Exceptions></Exceptions></ActivityDef>
+</JobFlowDef>
+</JobFlowReq>
